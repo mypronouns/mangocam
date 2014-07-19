@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="msapplication-tap-highlight" content="no" />
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        <link rel="stylesheet" type="text/css" href="css/index.css" />
+        <title>MangoCam</title>
+    </head>
+    <body>
+        <div id="maincontent">
+            <h1>MangoCam</h1>
+            <button onclick="TakePhoto();">Capture Photo</button>
+            <img style="display:none;" id="largeImage" src="" />
+        </div>
+        
+        <script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
+        
+        <script type="text/javascript" src="js/filterous.js"></script>
+        <script type="text/javascript" src="js/filterousEffects.js"></script>
+        
+        <script type="text/javascript">
+            function TakePhoto() {
+                navigator.camera.getPicture(onCameraSuccess, onCameraFail, { quality: 100, allowEdit: true, destinationType: Camera.DestinationType.DATA_URL});
+                return false;
+            }
+            
+            function onCameraSuccess(imgData) {
+                var image = document.getElementById('largeImage');
+                
+                image.style.display = 'block';
+                image.src = "data:image/jpeg;base64," + imgData;
+
+                image.style.width = "50%";
+                image.style.height = 'auto'
+                
+                ApplyEffects.memphis(image, 'jpeg');
+                //var f = new Filterous(image, 'jpeg');                f.render();
+            }            
+            
+            function onCameraFail(message) {
+                alert('failed: ' + message);
+            }
+            
+            app.initialize();
+        </script>
+    </body>
+</html>
